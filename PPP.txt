@@ -1,0 +1,35 @@
+Sign Language Detection System — Pseudocode (Improved Version)
+================================================================
+
+INPUT
+    Get video_frame, min_detection_confidence, max_num_hands
+
+PROCESS
+    LOOP continuously:
+        SET video_frame <- CaptureNewFrame(webcam)              # FIX 1: refresh frame every iteration
+        SET detected_letter <- ""                                # FIX 2: clear stale output
+
+        hand_landmarks <- ExtractHandPoints(
+            video_frame, min_detection_confidence, max_num_hands) # FIX 3: pass max_num_hands as argument
+
+        IF hand_landmarks detected:
+            hand_landmarks <- Normalize(hand_landmarks, hand_landmarks[0])  # FIX 4: normalize relative to wrist
+            gesture_pattern <- AnalyzeJointDistances(hand_landmarks)
+            detected_letter <- MatchPatternToLetter(gesture_pattern)
+        ELSE:
+            WAIT one frame                                        # FIX 5: loop back, not to extraction
+
+OUTPUT
+    Display "Detected Sign: " + detected_letter
+
+
+Variable Table
+================================================================
+Variable Name              Data Type            Description
+--------------------------------------------------------------
+video_frame                 Matrix / Array       Raw image array captured from the webcam (e.g. 640x480 RGB)
+min_detection_confidence    Decimal (Float)      Accuracy threshold required to validate a hand (e.g. 0.75)
+max_num_hands                Integer              Maximum number of hands the system will track (e.g. 2)
+hand_landmarks               Array (Coordinates)  The 21 spatial points (X, Y) of the hand joints
+gesture_pattern               Array (Decimals)     Calculated geometric angles and distances
+detected_letter               String / Char        The final translated text shown to the user
