@@ -1,0 +1,1 @@
+My logs track program startup/shutdown, model download events, webcam initialization failures, dropped frames, and every successfully classified sign, so that if the detector misbehaves or crashes I can trace exactly which stage, model loading, camera access, or the classification logic itself, caused the problem.
